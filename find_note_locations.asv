@@ -9,23 +9,15 @@ function [ locs_x, locs_y, note_properties ] = find_note_locations( subimg, n, n
     
     half_note_template = imread('images/half_note_template.png');
     half_note_template_bw = imbinarize(half_note_template(:,:,3),...
-        'adaptive','ForegroundPolarity','dark','Sensitivity',0.30);
-    
-    half_note_template_1 = imread('images/half_note_template_1.png');
-    half_note_template_bw_1 = imbinarize(half_note_template_1(:,:,3),...
-        'adaptive','ForegroundPolarity','dark','Sensitivity',0.30);
-    
-    half_note_template_2 = imread('images/half_note_template_2.png');
-    half_note_template_bw_2 = imbinarize(half_note_template_2(:,:,3),...
-        'adaptive','ForegroundPolarity','dark','Sensitivity',0.30);
+        'adaptive','ForegroundPolarity','dark','Sensitivity',0.4);
 
     quarter_note_template = imread('images/quarter_note_template.png');
     quarter_note_template_bw = imbinarize(quarter_note_template(:,:,3),...
-        'adaptive','ForegroundPolarity','dark','Sensitivity',0.30);
+        'adaptive','ForegroundPolarity','dark','Sensitivity',0.4);
     
     whole_note_template = imread('images/whole_note_template.png');
     whole_note_template_bw = imbinarize(whole_note_template(:,:,3),...
-        'adaptive','ForegroundPolarity','dark','Sensitivity',0.30);
+        'adaptive','ForegroundPolarity','dark','Sensitivity',0.4);
     
     
     subimg_temp = [];
@@ -38,14 +30,11 @@ function [ locs_x, locs_y, note_properties ] = find_note_locations( subimg, n, n
             duration = 0.25;
         elseif strcmp(note_type,'half')
             c = normxcorr2e(half_note_template_bw,subimg{i_img}, 'same');
-            c1 = normxcorr2e(half_note_template_bw_1,subimg{i_img}, 'same');
-            c2 = normxcorr2e(half_note_template_bw_2,subimg{i_img}, 'same');
-            g = (c + c1) ./ 2;
-            imcorr_bw = im2bw(g, 0.46);
+            imcorr_bw = im2bw(c, 0.55);
             duration = 0.5;
         elseif strcmp(note_type,'whole')
             c = normxcorr2e(whole_note_template_bw,subimg{i_img}, 'same');
-            imcorr_bw = im2bw(c, 0.5);
+            
             duration = 1;
         else
             throw(Mexception('find_note_locations:BadInput',...

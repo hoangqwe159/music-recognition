@@ -6,11 +6,16 @@ function [ strout ] = get_note_pitch( locs_eighth_note, locs_fourth_note, locs_y
     strout = '';
     pitches = {'E4','D4','C4','B3','A3','G3','F3','E3','D3','C3','B2','A2','G2','F2','E2','D2','C2','B1','A1','G1'};
     diffrence = mean(diff(subimg_staff_lines{1}))/2;
+   
     for i_img=1:n
-
+        
+        % The bottom staff line
         ref_staff_line = subimg_staff_lines{i_img}(5);
-
+        
+        % Loop through y-axis of subimg
         for i = 1:length(locs_y{i_img})
+            
+            % Calculate distance from note to bottom line
             distance = ref_staff_line-locs_y{i_img}(i);
 
 
