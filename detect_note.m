@@ -1,7 +1,7 @@
 function [ note_array ] = detect_note( sorted_note_properties, subimg_staff_lines, n )
-% GET NOTE PITCH 
-%   Inputs, notes types, y locations and subimages
-%   Outputs, a string with all classified notes
+% Detect NOTE PITCH 
+%   Inputs, notes properties and subimages
+%   Outputs, sorted note array with frequency and duration
 
     strout = '';
     note_array = [];
@@ -29,26 +29,20 @@ function [ note_array ] = detect_note( sorted_note_properties, subimg_staff_line
 
             ref_note = 15;
             tone_distance = distance/diffrence;
-
+            
+            % Detect note type based on distance from note to the bottom
+            % staff
             if tone_distance < ref_note && tone_distance > -5
                 tone = pitches{round(ref_note-tone_distance)};
                 frequency = frequencies{round(ref_note-tone_distance)};
                 note_array =  [note_array, frequency];
-            else
+            else % If the note is not found
                note_array =  [note_array, -1];
             end
-
         end
-        
-        
-
-%         if i_img ~= n
-%             note_array =  [note_array, 0];
-%         end
-
-
     end
     
+    % Add duration array to note array
     note_array = vertcat(note_array, duration_array);
 end
 

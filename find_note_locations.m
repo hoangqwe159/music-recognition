@@ -32,14 +32,16 @@ function [ locs_x, locs_y, note_properties ] = find_note_locations( subimg, n, n
 
     for i_img=1:n
         
+        
+        % Matching template by 2D normalized correlation
         if strcmp(note_type,'quarter')
             c = normxcorr2e(quarter_note_template_bw,subimg{i_img}, 'same');
             imcorr_bw = im2bw(c, 0.43);
             duration = 0.25;
         elseif strcmp(note_type,'half')
+            % Using 2 images as template
             c = normxcorr2e(half_note_template_bw,subimg{i_img}, 'same');
             c1 = normxcorr2e(half_note_template_bw_1,subimg{i_img}, 'same');
-            c2 = normxcorr2e(half_note_template_bw_2,subimg{i_img}, 'same');
             g = (c + c1) ./ 2;
             imcorr_bw = im2bw(g, 0.46);
             duration = 0.5;
@@ -51,21 +53,18 @@ function [ locs_x, locs_y, note_properties ] = find_note_locations( subimg, n, n
             throw(Mexception('find_note_locations:BadInput',...
               'NOTE_TYPE must be ''quarter'' or ''half''.'));
         end
-            
-        
-        
-        
+
         
         subimg_temp{i_img} = imcorr_bw;
     
+
         
+        % Get all objects areas 
         [L, n] = bwlabel(subimg_temp{i_img});
-        
-        % Get all objects areas        
         note_heads = regionprops(L, 'Area');
         m_area = median([note_heads.Area]);
 
-
+        % If the number of notes > 0
         if m_area > 0
             % Remove noise smaller than 40% of the maximal object
             subimg_temp{i_img} = xor(bwareaopen(subimg_temp{i_img}, round(m_area*0.8)),...
@@ -76,9 +75,9 @@ function [ locs_x, locs_y, note_properties ] = find_note_locations( subimg, n, n
             subimg_temp{i_img} = subimg_temp{i_img} > 0.01;
 
             % Print detected notes as an overlay on the image
-            overlay = imoverlay(subimg{i_img}, subimg_temp{i_img}, [.3 1 .3]);
-            figure;
-            imshow(overlay);
+%             overlay = imoverlay(subimg{i_img}, subimg_temp{i_img}, [.3 1 .3]);
+%             figure;
+%             imshow(overlay);
 
             % Find locations of the note head based on their centroids
             note_heads = regionprops(subimg_temp{i_img}, 'Centroid');
@@ -91,6 +90,7 @@ function [ locs_x, locs_y, note_properties ] = find_note_locations( subimg, n, n
             locs_y{i_img} = [];            
         end
         
+        % Add note duration
         note_duration{i_img} = duration .* ones( size(locs_x{i_img}, 1), 1); 
         note_properties{i_img} = horzcat( locs_x{i_img}, locs_y{i_img}, note_duration{i_img} );
      
