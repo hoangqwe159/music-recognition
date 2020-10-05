@@ -6,13 +6,12 @@ function [ staff_lines ] = staff_line_identification( bw_image )
     % Erosion of horizontal lines 
     se_line = strel('line', length(bw_image)*0.005, 0);
     bw_image = imerode(bw_image, se_line);
-    
-    figure;
-    imshow(bw_image);
-    
-    % Plot the horizontal projection
+
     figure
-    plot(sum(bw_image,2), fliplr(1:size(bw_image,1)));
+    imshow(bw_image)
+    % Plot the horizontal projection
+%     figure
+%     plot(sum(bw_image,2), fliplr(1:size(bw_image,1)));
     
     % Find locations using Horizontal projection
     [pks, locs] = findpeaks(sum(bw_image,2));

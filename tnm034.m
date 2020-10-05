@@ -11,12 +11,12 @@
 
     Fs = 24000;
     image = imread("images/duck.png");
-    % ------ PREPROCESSING   
+    % ------ PREPROCESSING  
     
-
+    % Convert to binary image with the size of the cropped image
+    bw = 1-imbinarize(image(:,:,3),'adaptive','ForegroundPolarity','dark','Sensitivity',0.4);
   
-    % ------ STAFF LINE IDENTIFICATION 
-    
+    % ------ STAFF LINE IDENTIFICATION     
     staff_lines = staff_line_identification(bw);
     
     if ~isempty(staff_lines)
