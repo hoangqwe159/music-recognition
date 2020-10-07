@@ -10,10 +10,13 @@ function [ note_array ] = detect_note( sorted_note_properties, subimg_staff_line
     
     %frequencies = {329.63, 293.66, 261.63, 246.94, 220.00,  196.00, 174.61, 164.81, 146.83, 130.81, 123.47, 110.00, 98.00, 87.31, 82.41, 73.42, 65.41, 61.74, 55.00, 49.00  };
     frequencies = {1318.51, 1174.66, 1046.50, 987.77, 880.00,  783.99, 698.46, 659.26, 587.33, 523.25, 493.88, 440.00, 392.00, 349.23, 329.63, 293.66, 261.63, 246.94, 220.00, 196.00};
+    
+    % Distance between staff
     diffrence = mean(diff(subimg_staff_lines{1}))/2;
     
     for i_img=1:n
         
+        % Extract note properties from sotred array
         locs_y{i_img} = sorted_note_properties{i_img}(:, 2);
         duration_array = [duration_array, transpose(sorted_note_properties{i_img}(:, 3))];
         
@@ -26,12 +29,12 @@ function [ note_array ] = detect_note( sorted_note_properties, subimg_staff_line
             % Calculate distance from note to bottom line
             distance = ref_staff_line-locs_y{i_img}(i);
 
-
+            % The scope of the staff, we defined 20 notes from (-5, 15]
             ref_note = 15;
             tone_distance = distance/diffrence;
             
             % Detect note type based on distance from note to the bottom
-            % staff
+            % staff based on tone_distance
             if tone_distance < ref_note && tone_distance > -5
                 tone = pitches{round(ref_note-tone_distance)};
                 frequency = frequencies{round(ref_note-tone_distance)};

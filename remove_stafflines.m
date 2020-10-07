@@ -5,7 +5,7 @@ function [ out_image ] = remove_stafflines( in_image, staff_lines )
 
     out_image = in_image;
     for i=1:length(staff_lines(:))
-        % Alternative method for removing staff line while without cutting
+        % Method for removing staff line while without cutting
         % the notes where the staff lines are
         for j=1:length(out_image(1,:))
             if ~(out_image(staff_lines(i)-2, j) == 1 ...

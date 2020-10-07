@@ -1,11 +1,14 @@
 function I = normxcorr2e(template, im, shape)
-
+%  Computes The Normalized Cross-correlation 
+%   Inputs, template, binary image and shape
+%   Outputs, a matrix contains the correlation coefficients.
   if (nargin == 2) || strcmp(shape,'full')
       I = normxcorr2(template, im);
       return
   end
 
   switch shape
+      % The size of output image is same as input image
       case 'same'
           pad = floor(size(template)./2);
           center = size(im);
