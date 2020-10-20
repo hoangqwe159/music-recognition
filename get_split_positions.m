@@ -1,5 +1,5 @@
 function [ split_positions ] = get_split_positions( image, staff_lines )
-% GET SPLITT POSITIONS 
+% GET SPLIT POSITIONS 
 %   Inputs, binary image and location off staff lines
 %   Outputs, positions of where to splitt the image into subimages based on
 %   the staff lines

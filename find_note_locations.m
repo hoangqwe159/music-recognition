@@ -4,7 +4,7 @@ function note_properties = find_note_locations( subimg, n, note_type )
 % FIND NOTE LOCATIONS 
 %   Inputs, binary images, number of subimages and type of note want to
 %   find
-%   Outputs, subimages stored in cells
+%   Outputs, note properties stored in cells
 
     % Structuring elements that looks like note heads
     se_disk_large = strel('disk', 5);
