@@ -1,4 +1,4 @@
-function [ locs_x, locs_y, note_properties ] = find_note_locations( subimg, n, note_type )
+function  note_properties  = find_note_locations( subimg, n, note_type )
 % FIND NOTE LOCATIONS 
 %   Inputs, binary images, number of subimages and type of note want to
 %   find
